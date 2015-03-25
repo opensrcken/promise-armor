@@ -5,20 +5,8 @@ var ES6Promise = require('es6-promise').Promise;
 var PromiseArmor = require('../lib/promise-armor');
 
 var implementInterfaceOnEs6Promise = function (Promise) {
-  Promise.prototype._reject = function () {
-    return this._state === 0;
-  };
-
-  Promise.prototype._resolve = function () {
-    return this._state === 0;
-  };
-
-  Promise.prototype._overrideResolution = function (result) {
-    return this._result = result;
-  };
-
   Promise.prototype.isPending = function () {
-    return this._state === 0;
+    return this._state === void 0;
   };
 
   Promise.prototype.isFulfilled = function () {
