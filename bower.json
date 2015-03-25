@@ -1,0 +1,29 @@
+{
+  "name": "promise-armor",
+  "version": "0.0.0",
+  "description": "\"Wraps ES6 promises, and possibly other A+ promise libraries, with light-weight implementations of common convenience methods.\"",
+  "main": "lib/promise-armor.js",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "promise",
+    "q",
+    "bluebird",
+    "es6-promise"
+  ],
+  "authors": [
+    "Kenneth Hahn"
+  ],
+  "license": "MIT",
+  "homepage": "https://bitbucket.org/opensrcken/promise-armor",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
