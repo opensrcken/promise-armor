@@ -2,8 +2,6 @@
 var assert = require("assert");
 var Promise = require('./utils/setup-es6-promise');
 
-console.log(Promise.prototype);
-
 /*!
  *
  Copyright 2009–2012 Kristopher Michael Kowal. All rights reserved.
