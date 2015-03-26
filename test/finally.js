@@ -56,6 +56,30 @@ describe("finally", function () {
         });
     });
 
+    it("should call the callback after a delayed resolution", function() {
+      var called = false;
+
+      return Promise.delay(5)
+        .finally(function () {
+          called = true;
+        })
+        .then(function () {
+          assert.equal(called,true);
+        });
+    });
+
+    it("should call the callback after a delayed rejection", function() {
+      var called = false;
+
+      return new Promise(function (_, reject) {
+        setTimeout(reject, 5);
+      }).finally(function () {
+          called = true;
+        }).then(assert.fail).caught(function () {
+          assert.equal(called,true);
+        });
+    });
+
     it("should fulfill with the original value", function() {
       return Promise.resolve("foo")
         .finally(function () {
