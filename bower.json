@@ -1,6 +1,6 @@
 {
   "name": "promise-armor",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "\"Wraps ES6 promises, and possibly other A+ promise libraries, with light-weight implementations of common convenience methods.\"",
   "main": "dist/promise-armor.js",
   "moduleType": [

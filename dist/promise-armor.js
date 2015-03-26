@@ -3,13 +3,20 @@
   else if (typeof module != 'undefined') module.exports = definition();
   else this[name] = definition();
 }('PromiseArmor', function () {
+  var TimeoutError = function (message) {
+    this.message = message;
+    this.name = 'TimeoutError'
+  };
+
+  TimeoutError.prototype = new Error();
+
   var getJitter = function (base, jitterFactor) {
     // at jitterFactor === 1, can as much as double the base exponentiation rate
     return Math.random() * base * jitterFactor;
   }
 
   var publicApi = [
-    'method', 'props', 'resolve', 'reject', 'withTimeout', 'withRetry', 'withRetryAndTimeout', 'wrap'
+    'delay', 'method', 'props', 'resolve', 'reject', 'withTimeout', 'withRetries', 'withRetriesAndTimeout', 'wrap'
   ];
 
   var propagatePrevious = function (self, resolve, reject) {
@@ -82,6 +89,12 @@
     }
   };
 
+  PromiseArmor.prototype.delay = function (delay) {
+    return this.promiseFactoryFn(function (resolve) {
+      setTimeout(resolve, delay);
+    });
+  };
+
   PromiseArmor.extendPromise = function (Promise, doOverride) {
     var armor = new PromiseArmor(Promise);
 
@@ -90,6 +103,8 @@
         Promise[fnName] = armor[fnName].bind(armor);
       }
     });
+
+    Promise.TimeoutError = TimeoutError;
 
     return Promise;
   };
@@ -187,7 +202,7 @@
   /**
    * set jitterFactor to > 0 to improve receiver perf in the worst case
    */
-  PromiseArmor.prototype.withRetry = function (retries, promiseFn, options) {
+  PromiseArmor.prototype.withRetries = function (retries, promiseFn, options) {
     var DEFAULT_WAIT = 1000;
     var DEFAULT_JITTER_FACTOR = 0;
     var DEFAULT_EXPONENT_BASE = 2;
@@ -226,10 +241,10 @@
     });
   };
 
-  PromiseArmor.prototype.withRetryAndTimeout = function (retries, timeout, promiseFn, cancelFn, retryOptions) {
+  PromiseArmor.prototype.withRetriesAndTimeout = function (retries, timeout, promiseFn, cancelFn, retryOptions) {
     var self = this;
 
-    return this.withRetry(retries, function () {
+    return this.withRetries(retries, function () {
       return self.withTimeout(timeout, promiseFn, cancelFn);
     }, retryOptions);
   };
@@ -249,7 +264,7 @@
           return;
         }
         cancelFn && cancelFn();
-        reject("TimeOutError");
+        reject(new TimeoutError);
       }, timeout);
     });
   };

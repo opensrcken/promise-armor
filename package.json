@@ -2,7 +2,7 @@
   "name": "promise-armor",
   "description": "A light-weight Promise wrapper that adds convenience functions.",
   "author": "Kenneth Hahn",
-  "version": "0.1.0",
+  "version": "0.1.4",
   "private": false,
   "scripts": {},
   "devDependencies": {
@@ -13,6 +13,7 @@
     "jquery": "1.11.1",
     "mocha": "*"
   },
+  "main": "dist/promise-armor.js",
   "repository": {
     "type": "git",
     "url": ""
