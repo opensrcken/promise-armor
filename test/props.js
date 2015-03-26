@@ -2,27 +2,11 @@
 
 var assert = require("assert");
 
-var ES6Promise = require('es6-promise').Promise;
 var $Promise = require('./utils/jquery.promise');
 var PromiseArmor = require('../lib/promise-armor');
 var Promises = [];
 
-var implementInterfaceOnEs6Promise = function (Promise) {
-  Promise.prototype.isFulfilled = function () {
-    return this._state === 1;
-  };
-
-  Promise.prototype.isRejected = function () {
-    return this._state === 2;
-  };
-
-  Promise.prototype.getResolution = function () {
-    return this._result;
-  };
-};
-
-implementInterfaceOnEs6Promise(ES6Promise);
-Promises.push(PromiseArmor.extendPromise(ES6Promise, true));
+Promises.push(require('./utils/setup-es6-promise'));
 Promises.push(PromiseArmor.extendPromise($Promise, true));
 
 /*
